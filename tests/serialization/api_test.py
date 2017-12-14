@@ -17,11 +17,11 @@ class APITestCase(unittest.TestCase):
         self._call_all_func(IdentifiedDataSerializable)
 
     def _call_all_func(self, class_type):
-        for meth in class_type.__dict__.values():
+        for meth in list(class_type.__dict__.values()):
             try:
                 if isinstance(meth, FunctionType):
                     with self.assertRaises(NotImplementedError):
-                        params = [i for i in xrange(0, meth.func_code.co_argcount)]
+                        params = [i for i in range(0, meth.__code__.co_argcount)]
                         meth(*params)
             except TypeError as e:
                 print(e)

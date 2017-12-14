@@ -171,7 +171,7 @@ class InnerPortable(Portable):
 def create_portable():
     identified = create_identified()
     inner_portable = InnerPortable("Inner Text", 666)
-    return SerializationV1Portable(99, True, 'c', 11, 1234134, 1341431221l, 1.0, 2.0, [1, 2, 3], [True, False, True],
+    return SerializationV1Portable(99, True, 'c', 11, 1234134, 1341431221, 1.0, 2.0, [1, 2, 3], [True, False, True],
                                    ['a', 'b', 'c'],
                                    [1, 2, 3], [4, 2, 3], [11, 2, 3], [1.0, 2.0, 3.0],
                                    [11.0, 22.0, 33.0], "the string text",
@@ -194,7 +194,7 @@ class PortableSerializationTestCase(unittest.TestCase):
         data = service.to_data(obj)
         obj2 = service.to_object(data)
         self.assertTrue(obj == obj2)
-        self.assertEquals(obj.inner_portable.param_int, obj2.nested_field)
+        self.assertEqual(obj.inner_portable.param_int, obj2.nested_field)
 
     def test_encode_decode_2(self):
         config = hazelcast.ClientConfig()

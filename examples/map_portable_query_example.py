@@ -66,8 +66,8 @@ class SamplePortable(Portable):
 
 
 def fill_map(hz_map, count=10):
-    s_map = {SamplePortable("key-%d" % x, x): SamplePortable("value-%d" % x, x) for x in xrange(0, count)}
-    for k, v in s_map.iteritems():
+    s_map = {SamplePortable("key-%d" % x, x): SamplePortable("value-%d" % x, x) for x in range(0, count)}
+    for k, v in s_map.items():
         hz_map.put(k, v)
     return s_map
 
@@ -118,15 +118,15 @@ if __name__ == '__main__':
     #     print "key:", key
 
     my_map_async = client.get_map("map")
-    print("Map Size:", my_map_async.size().result())
+    print(("Map Size:", my_map_async.size().result()))
 
     predicate2 = sql("param-str ILIKE 'value-2%'")
 
     def values_callback(f):
         result_set = f.result()
-        print("Query Result Size:", len(result_set))
+        print(("Query Result Size:", len(result_set)))
         for value in result_set:
-            print "value:", value
+            print("value:", value)
     my_map_async.values(predicate2).add_done_callback(values_callback)
 
 

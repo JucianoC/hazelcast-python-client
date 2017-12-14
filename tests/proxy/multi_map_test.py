@@ -97,7 +97,7 @@ class MultiMapTest(SingleMemberTestCase):
         mm = self._fill_map()
 
         entry_list = []
-        for key, list in mm.iteritems():
+        for key, list in mm.items():
             for value in list:
                 entry_list.append((key, value))
 
@@ -121,7 +121,7 @@ class MultiMapTest(SingleMemberTestCase):
         self.assertFalse(self.multi_map.is_locked("key"))
 
     def test_key_set(self):
-        keys = self._fill_map().keys()
+        keys = list(self._fill_map().keys())
 
         self.assertItemsEqual(self.multi_map.key_set(), keys)
 
@@ -201,15 +201,15 @@ class MultiMapTest(SingleMemberTestCase):
         self.assertEqual(self.multi_map.value_count("key-0"), 10)
 
     def test_values(self):
-        values = self._fill_map().values()
-        self.assertItemsEqual(self.multi_map.values(), itertools.chain(*values))
+        values = list(self._fill_map().values())
+        self.assertItemsEqual(list(self.multi_map.values()), itertools.chain(*values))
 
     def test_str(self):
         self.assertTrue(str(self.multi_map).startswith("MultiMap"))
 
     def _fill_map(self, key_count=5, value_count=5):
-        map = {"key-%d" % x: ["value-%d-%d" % (x, y) for y in xrange(0, value_count)] for x in xrange(0, key_count)}
-        for k, l in map.iteritems():
+        map = {"key-%d" % x: ["value-%d-%d" % (x, y) for y in range(0, value_count)] for x in range(0, key_count)}
+        for k, l in map.items():
             for v in l:
                 self.multi_map.put(k, v)
 

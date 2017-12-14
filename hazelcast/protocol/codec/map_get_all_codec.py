@@ -37,7 +37,7 @@ def decode_response(client_message, to_object=None):
     parameters = dict(response=None)
     response_size = client_message.read_int()
     response = []
-    for response_index in xrange(0, response_size):
+    for response_index in range(0, response_size):
         response_item = (client_message.read_data(), client_message.read_data())
         response.append(response_item)
     parameters['response'] = ImmutableLazyDataList(response, to_object)

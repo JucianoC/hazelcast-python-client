@@ -6,7 +6,7 @@ import socket
 import sys
 import threading
 import time
-from Queue import PriorityQueue, Empty
+from queue import PriorityQueue, Empty
 from collections import deque
 
 from hazelcast.connection import Connection, BUFFER_SIZE
@@ -75,10 +75,10 @@ class AsyncoreReactor(object):
         if not self._is_live:
             return
         self._is_live = False
-        for connection in self._map.values():
+        for connection in list(self._map.values()):
             try:
                 connection.close(HazelcastError("Client is shutting down"))
-            except OSError, connection:
+            except OSError as connection:
                 if connection.args[0] == socket.EBADF:
                     pass
                 else:
@@ -147,7 +147,7 @@ class AsyncoreConnection(Connection, asyncore.dispatcher):
                 data = self._write_queue.popleft()
             except IndexError:
                 return
-            sent = self.send(data)
+            sent = self.send(bytearray(map(ord, data)))
             self.sent_protocol_bytes = True
             if sent < len(data):
                 self._write_queue.appendleft(data[sent:])

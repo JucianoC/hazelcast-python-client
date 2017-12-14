@@ -64,10 +64,10 @@ def do_benchmark():
     counter = 1
     while counter < 3:
         time.sleep(5)
-        print("ops per second : " + \
-              str(sum([t.gets + t.puts + t.removes for t in threads]) / (time.time() - start)))
+        print(("ops per second : " + \
+              str(sum([t.gets + t.puts + t.removes for t in threads]) / (time.time() - start))))
         for t in threads:
-            print ("%s: put: %d get: %d: remove: %d" % (t.name, t.puts, t.gets, t.removes))
+            print(("%s: put: %d get: %d: remove: %d" % (t.name, t.puts, t.gets, t.removes)))
         counter += 1
 
 

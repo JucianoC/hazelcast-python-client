@@ -1,7 +1,7 @@
 import logging
 import threading
 import time
-from Queue import Queue
+from queue import Queue
 import functools
 from hazelcast.exception import create_exception, HazelcastInstanceNotActiveError, is_retryable_error, TimeoutError, \
     AuthenticationError, TargetDisconnectedError, HazelcastClientNotActiveException
@@ -165,17 +165,17 @@ class InvocationService(object):
         return invocation.future
 
     def cleanup_connection(self, connection, cause):
-        for correlation_id, invocation in dict(self._pending).iteritems():
+        for correlation_id, invocation in dict(self._pending).items():
             if invocation.sent_connection == connection:
                 self._handle_exception(invocation, cause)
 
         if self._client.lifecycle.is_live:
-            for correlation_id, invocation in dict(self._event_handlers).iteritems():
+            for correlation_id, invocation in dict(self._event_handlers).items():
                 if invocation.sent_connection == connection and invocation.connection is None:
                     self._client.listener.re_register_listener(invocation)
 
     def _heartbeat_stopped(self, connection):
-        for correlation_id, invocation in dict(self._pending).iteritems():
+        for correlation_id, invocation in dict(self._pending).items():
             if invocation.sent_connection == connection:
                 self._handle_exception(invocation,
                                        TargetDisconnectedError("%s has stopped heart beating." % connection))

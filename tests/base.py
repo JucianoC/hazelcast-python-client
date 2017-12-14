@@ -71,7 +71,7 @@ class HazelcastTestCase(unittest.TestCase):
                          number_of_affected_entries=1):
 
         self.assertEqual(event.key, key)
-        self.assertEquals(event.event_type, event_type)
+        self.assertEqual(event.event_type, event_type)
         self.assertEqual(event.value, value)
         self.assertEqual(event.merging_value, merging_value)
         self.assertEqual(event.old_value, old_value)

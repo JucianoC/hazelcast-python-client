@@ -81,13 +81,13 @@ class PredicateTest(SingleMemberTestCase):
         self.map.destroy()
 
     def _fill_map(self, count=10):
-        map = {"key-%d" % x: "value-%d" % x for x in xrange(0, count)}
-        for k, v in map.iteritems():
+        map = {"key-%d" % x: "value-%d" % x for x in range(0, count)}
+        for k, v in map.items():
             self.map.put(k, v)
         return map
 
     def _fill_map_numeric(self, count=100):
-        for n in xrange(0, count):
+        for n in range(0, count):
             self.map.put(n, n)
 
     def test_sql(self):
@@ -114,7 +114,7 @@ class PredicateTest(SingleMemberTestCase):
         self._fill_map_numeric()
 
         predicate = is_between("this", 1, 20)
-        self.assertItemsEqual(self.map.key_set(predicate), range(1, 21))
+        self.assertItemsEqual(self.map.key_set(predicate), list(range(1, 21)))
 
     def test_equal(self):
         self._fill_map()
@@ -136,22 +136,22 @@ class PredicateTest(SingleMemberTestCase):
     def test_less_than(self):
         self._fill_map_numeric()
         predicate = is_less_than("this", 10)
-        self.assertItemsEqual(self.map.key_set(predicate), range(0, 10))
+        self.assertItemsEqual(self.map.key_set(predicate), list(range(0, 10)))
 
     def test_less_than_or_equal(self):
         self._fill_map_numeric()
         predicate = is_less_than_or_equal_to("this", 10)
-        self.assertItemsEqual(self.map.key_set(predicate), range(0, 11))
+        self.assertItemsEqual(self.map.key_set(predicate), list(range(0, 11)))
 
     def test_greater_than(self):
         self._fill_map_numeric()
         predicate = is_greater_than("this", 10)
-        self.assertItemsEqual(self.map.key_set(predicate), range(11, 100))
+        self.assertItemsEqual(self.map.key_set(predicate), list(range(11, 100)))
 
     def test_greater_than_or_equal(self):
         self._fill_map_numeric()
         predicate = is_greater_than_or_equal_to("this", 10)
-        self.assertItemsEqual(self.map.key_set(predicate), range(10, 100))
+        self.assertItemsEqual(self.map.key_set(predicate), list(range(10, 100)))
 
     def test_like(self):
         self.map.put("key-1", "a_value")
@@ -196,7 +196,7 @@ class PredicateTest(SingleMemberTestCase):
 
         predicate = true()
 
-        self.assertItemsEqual(self.map.key_set(predicate), map.keys())
+        self.assertItemsEqual(self.map.key_set(predicate), list(map.keys()))
 
     def test_false(self):
         map = self._fill_map()
@@ -220,14 +220,14 @@ class PredicatePortableTest(SingleMemberTestCase):
         self.map.destroy()
 
     def _fill_map(self, count=1000):
-        map = {InnerPortable("key-%d" % x, x): InnerPortable("value-%d" % x, x) for x in xrange(0, count)}
-        for k, v in map.iteritems():
+        map = {InnerPortable("key-%d" % x, x): InnerPortable("value-%d" % x, x) for x in range(0, count)}
+        for k, v in map.items():
             self.map.put(k, v)
         return map
 
     def test_predicate_portable_key(self):
         _map = self._fill_map()
-        map_keys = _map.keys()
+        map_keys = list(_map.keys())
 
         predicate = sql("param_int >= 900")
         key_set = self.map.key_set(predicate)

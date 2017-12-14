@@ -1,9 +1,9 @@
 import binascii
-import cPickle
+import pickle
 from datetime import datetime
 from time import time
 
-from bits import *
+from .bits import *
 from hazelcast.serialization.api import StreamSerializer
 from hazelcast.serialization.base import HazelcastSerializationError
 from hazelcast.serialization.serialization_const import *
@@ -227,7 +227,7 @@ class DateTimeSerializer(BaseSerializer):
         return datetime.fromtimestamp(long_time / 1000.0)
 
     def write(self, out, obj):
-        long_time = long(time.mktime(obj.timetuple()))
+        long_time = int(time.mktime(obj.timetuple()))
         out.write_long(long_time)
 
     def get_type_id(self):
@@ -251,7 +251,7 @@ class BigIntegerSerializer(BaseSerializer):
 
     def write(self, out, obj):
         the_big_int = -obj-1 if obj < 0 else obj
-        end_index = -1 if type(obj) == long else None
+        end_index = -1 if type(obj) == int else None
         hex_str = hex(the_big_int)[2:end_index]
         if len(hex_str) % 2 == 1:
             prefix = '0' # "f" if obj < 0 else "0"
@@ -311,13 +311,13 @@ class ArrayListSerializer(BaseSerializer):
     def read(self, inp):
         size = inp.read_int()
         if size > NULL_ARRAY_LENGTH:
-            return [inp.read_object() for _ in xrange(0, size)]
+            return [inp.read_object() for _ in range(0, size)]
         return None
 
     def write(self, out, obj):
         size = NULL_ARRAY_LENGTH if obj is None else len(obj)
         out.write_int(size)
-        for i in xrange(0, size):
+        for i in range(0, size):
             out.write_object(obj[i])
 
     def get_type_id(self):
@@ -328,7 +328,7 @@ class LinkedListSerializer(BaseSerializer):
     def read(self, inp):
         size = inp.read_int()
         if size > NULL_ARRAY_LENGTH:
-            return [inp.read_object() for _ in xrange(0, size)]
+            return [inp.read_object() for _ in range(0, size)]
         return None
 
     def write(self, out, obj):
@@ -341,10 +341,10 @@ class LinkedListSerializer(BaseSerializer):
 class PythonObjectSerializer(BaseSerializer):
     def read(self, inp):
         str = inp.read_utf().encode()
-        return cPickle.loads(str)
+        return pickle.loads(str)
 
     def write(self, out, obj):
-        out.write_utf(cPickle.dumps(obj))
+        out.write_utf(pickle.dumps(obj))
 
     def get_type_id(self):
         return PYTHON_TYPE_PICKLE

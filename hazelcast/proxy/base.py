@@ -188,7 +188,7 @@ class TopicMessage(object):
 
 def get_entry_listener_flags(**kwargs):
     flags = 0
-    for (key, value) in kwargs.iteritems():
+    for (key, value) in kwargs.items():
         if value:
             flags |= getattr(EntryEventType, key)
     return flags

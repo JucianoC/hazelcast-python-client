@@ -1,4 +1,4 @@
-import cPickle as pickle
+import pickle as pickle
 import unittest
 
 from hazelcast.config import SerializationConfig

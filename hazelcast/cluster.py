@@ -189,7 +189,7 @@ class ClusterService(object):
 
     def _member_added(self, member):
         self.members.append(member)
-        for added, _ in self.listeners.values():
+        for added, _ in list(self.listeners.values()):
             if added:
                 try:
                     added(member)
@@ -200,7 +200,7 @@ class ClusterService(object):
         self.members.remove(member)
         self._client.connection_manager.close_connection(member.address, TargetDisconnectedError(
             "%s is no longer a member of the cluster" % member))
-        for _, removed in self.listeners.values():
+        for _, removed in list(self.listeners.values()):
             if removed:
                 try:
                     removed(member)

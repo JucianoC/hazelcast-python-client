@@ -167,10 +167,10 @@ class NearCache(dict):
                 pass
 
     def _find_new_random_samples(self):
-        records = self.values()  # has random order because of dict hash
+        records = list(self.values())  # has random order because of dict hash
         new_sample_pool = set(self._eviction_candidates)
         start = self._random_index()
-        for i in xrange(start, start + self.eviction_sampling_count):
+        for i in range(start, start + self.eviction_sampling_count):
             index = i if i < len(records) else i - len(records)
             if records[index].is_expired(self.max_idle_seconds):
                 self._clean_expired_record(records[index].key)

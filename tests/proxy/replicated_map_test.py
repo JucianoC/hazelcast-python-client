@@ -145,7 +145,7 @@ class ReplicatedMapTest(SingleMemberTestCase):
         map = self._fill_map()
 
         self.assertTrueEventually(
-            lambda: self.assertItemsEqual(map.iteritems(), self.replicated_map.entry_set()))
+            lambda: self.assertItemsEqual(iter(map.items()), self.replicated_map.entry_set()))
 
     def test_is_empty(self):
         self.replicated_map.put("key", " value")
@@ -158,7 +158,7 @@ class ReplicatedMapTest(SingleMemberTestCase):
     def test_key_set(self):
         map = self._fill_map()
 
-        self.assertTrueEventually(lambda: self.assertItemsEqual(map.keys(), self.replicated_map.key_set()))
+        self.assertTrueEventually(lambda: self.assertItemsEqual(list(map.keys()), self.replicated_map.key_set()))
 
     def test_put_get(self):
         self.assertIsNone(self.replicated_map.put("key", "value"))
@@ -167,11 +167,11 @@ class ReplicatedMapTest(SingleMemberTestCase):
         self.assertEqual("new_value", self.replicated_map.get("key"))
 
     def test_put_all(self):
-        map = {"key-%d" % x: "value-%d" % x for x in xrange(0, 10)}
+        map = {"key-%d" % x: "value-%d" % x for x in range(0, 10)}
 
         self.replicated_map.put_all(map)
 
-        self.assertTrueEventually(lambda: self.assertItemsEqual(map.iteritems(), self.replicated_map.entry_set()))
+        self.assertTrueEventually(lambda: self.assertItemsEqual(iter(map.items()), self.replicated_map.entry_set()))
 
     def test_remove(self):
         self.replicated_map.put("key", "value")
@@ -197,13 +197,13 @@ class ReplicatedMapTest(SingleMemberTestCase):
     def test_values(self):
         map = self._fill_map()
 
-        self.assertTrueEventually(lambda: self.assertItemsEqual(map.values(), self.replicated_map.values()))
+        self.assertTrueEventually(lambda: self.assertItemsEqual(list(map.values()), list(self.replicated_map.values())))
 
     def test_str(self):
         self.assertTrue(str(self.replicated_map).startswith("ReplicatedMap"))
 
     def _fill_map(self, count=10):
-        map = {"key-%d" % x: "value-%d" % x for x in xrange(0, count)}
-        for k, v in map.iteritems():
+        map = {"key-%d" % x: "value-%d" % x for x in range(0, count)}
+        for k, v in map.items():
             self.replicated_map.put(k, v)
         return map

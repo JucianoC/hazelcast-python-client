@@ -67,3 +67,6 @@ target/
 .directory
 
 *.jar
+
+# vscode
+.vscode

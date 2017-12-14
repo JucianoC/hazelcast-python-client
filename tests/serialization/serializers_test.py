@@ -39,7 +39,7 @@ class SerializersTestCase(SingleMemberTestCase):
         buff = bytearray(binascii.unhexlify("00000000fffffffb00e7"))
         data = Data(buff)
         obj = self.service.to_object(data)
-        self.assertEqual(unichr(0x00e7), obj)
+        self.assertEqual(chr(0x00e7), obj)
 
     def test_float(self):
         buff = bytearray(binascii.unhexlify("00000000fffffff700000000"))

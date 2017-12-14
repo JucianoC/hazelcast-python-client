@@ -15,7 +15,7 @@ class CountDownLatchTest(SingleMemberTestCase):
         self.assertEqual(self.latch.get_count(), 20)
 
         def test_run():
-            for i in xrange(0, 20):
+            for i in range(0, 20):
                 self.latch.count_down()
                 sleep(0.06)
 

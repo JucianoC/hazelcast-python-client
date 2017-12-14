@@ -442,7 +442,7 @@ class Map(Proxy):
         from the server side MapLoader (optional).
         """
         if keys:
-            key_data_list = map(self._to_data, keys)
+            key_data_list = list(map(self._to_data, keys))
             return self._load_all_internal(key_data_list, replace_existing_values)
         else:
             return self._encode_invoke(map_load_all_codec, replace_existing_values=replace_existing_values)
@@ -513,7 +513,7 @@ class Map(Proxy):
         partition_service = self._client.partition_service
         partition_map = {}
 
-        for key, value in map.iteritems():
+        for key, value in map.items():
             check_not_none(key, "key can't be None")
             check_not_none(value, "value can't be None")
             entry = (self._to_data(key), self._to_data(value))
@@ -524,7 +524,7 @@ class Map(Proxy):
                 partition_map[partition_id] = [entry]
 
         futures = []
-        for partition_id, entry_list in partition_map.iteritems():
+        for partition_id, entry_list in partition_map.items():
             future = self._encode_invoke_on_partition(map_put_all_codec, partition_id, entries=dict(entry_list))
             futures.append(future)
 
@@ -818,8 +818,8 @@ class Map(Proxy):
     def _get_all_internal(self, partition_to_keys, futures=None):
         if futures is None:
             futures = []
-        for partition_id, key_dict in partition_to_keys.iteritems():
-            future = self._encode_invoke_on_partition(map_get_all_codec, partition_id, keys=key_dict.values())
+        for partition_id, key_dict in partition_to_keys.items():
+            future = self._encode_invoke_on_partition(map_get_all_codec, partition_id, keys=list(key_dict.values()))
             futures.append(future)
 
         def merge(f):
@@ -979,8 +979,8 @@ class MapFeatNearCache(Map):
     def _get_all_internal(self, partition_to_keys, futures=None):
         if futures is None:
             futures = []
-        for key_dic in partition_to_keys.itervalues():
-            for key in key_dic.keys():
+        for key_dic in partition_to_keys.values():
+            for key in list(key_dic.keys()):
                 try:
                     key_data = key_dic[key]
                     value = self._near_cache[key_data]

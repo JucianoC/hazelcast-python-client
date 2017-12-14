@@ -1,4 +1,4 @@
-from __future__ import with_statement
+
 
 import logging
 import struct
@@ -141,7 +141,7 @@ class ConnectionManager(object):
                     self._pending_connections.pop(address)
                 except KeyError:
                     pass
-            raise f.exception(), None, f.traceback()
+            raise f.exception().with_traceback(f.traceback())
 
     def _connection_closed(self, connection, cause):
         # if connection was authenticated, fire event
@@ -216,7 +216,7 @@ class Heartbeat(object):
 
     def _heartbeat(self):
         now = time.time()
-        for connection in self._client.connection_manager.connections.values():
+        for connection in list(self._client.connection_manager.connections.values()):
             time_since_last_read = now - connection.last_read
             if time_since_last_read > self._heartbeat_timeout:
                 if connection.heartbeating:

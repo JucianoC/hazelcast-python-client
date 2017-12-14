@@ -57,7 +57,7 @@ class Future(object):
         self._reactor_check()
         self._event.wait()
         if self._exception:
-            raise self._exception, None, self._traceback
+            raise self._exception.with_traceback(self._traceback)
         if self._result == NONE_RESULT:
             return None
         else:
@@ -223,7 +223,7 @@ class ImmediateExceptionFuture(Future):
         return self._traceback
 
     def result(self):
-        raise self._exception, None, self._traceback
+        raise self._exception.with_traceback(self._traceback)
 
     def add_done_callback(self, callback):
         self._invoke_cb(callback)

@@ -6,8 +6,8 @@ import hazelcast
 
 
 def fill_map(hz_map, count=10):
-    _map = {"key-%d" % x: "value-%d" % x for x in xrange(0, count)}
-    for k, v in _map.iteritems():
+    _map = {"key-%d" % x: "value-%d" % x for x in range(0, count)}
+    for k, v in _map.items():
         hz_map.put(k, v)
     return _map
 
@@ -41,21 +41,21 @@ if __name__ == '__main__':
 
     fill_map(my_map, 1000)
 
-    print("map.size", my_map.size())
+    print(("map.size", my_map.size()))
 
     key = random.random()
-    print("map.put", my_map.put(key, "value"))
-    print("map.contains_key", my_map.contains_key(key))
-    print("map.get", my_map.get(key))
-    print("map.size", my_map.size())
-    print("map.remove", my_map.remove(key))
-    print("map.size", my_map.size())
-    print("map.contains_key", my_map.contains_key(key))
+    print(("map.put", my_map.put(key, "value")))
+    print(("map.contains_key", my_map.contains_key(key)))
+    print(("map.get", my_map.get(key)))
+    print(("map.size", my_map.size()))
+    print(("map.remove", my_map.remove(key)))
+    print(("map.size", my_map.size()))
+    print(("map.contains_key", my_map.contains_key(key)))
 
     print('Iterate over all map:')
 
     for key, value in my_map.entry_set():
-        print "key:", key, "value:", value
+        print("key:", key, "value:", value)
 
 
     sleep(10)

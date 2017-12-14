@@ -99,7 +99,7 @@ class SerializationV1Identified(IdentifiedDataSerializable):
         doubles = self.doubles == other.doubles
         string = self.a_string == other.a_string
         strings = self.strings == other.strings
-        return byte and boolean and char and short and integer and long and float and double and \
+        return byte and boolean and char and short and integer and int and float and double and \
                bytes_ and booleans and chars and shorts and integers and longs and floats and doubles and string and strings
 
 

@@ -1,8 +1,8 @@
 import sys
 from threading import RLock
 
-from api import *
-from data import *
+from .api import *
+from .data import *
 from hazelcast.config import INTEGER_TYPE
 from hazelcast.exception import HazelcastInstanceNotActiveError, HazelcastSerializationError
 from hazelcast.serialization.input import _ObjectDataInput
@@ -18,11 +18,11 @@ def handle_exception(e, traceback):
     if isinstance(e, MemoryError):
         # TODO
         print("OUT OF MEMORY")
-        raise e, None, traceback
+        raise e.with_traceback(traceback)
     elif isinstance(e, HazelcastSerializationError):
-        raise e, None, traceback
+        raise e.with_traceback(traceback)
     else:
-        raise HazelcastSerializationError(e.message), None, traceback
+        raise HazelcastSerializationError(e.message).with_traceback(traceback)
 
 
 def is_null_data(data):
@@ -156,7 +156,7 @@ class SerializerRegistry(object):
         self._null_serializer = NoneSerializer()
         self._python_serializer = PythonObjectSerializer()
 
-        self._constant_type_ids = [None for _ in xrange(0, CONSTANT_SERIALIZERS_LENGTH)]  # array of serializer
+        self._constant_type_ids = [None for _ in range(0, CONSTANT_SERIALIZERS_LENGTH)]  # array of serializer
         self._constant_type_dict = {}  # dict of class:serializer
 
         self._id_dic = {}  # dict of type_id:serializer
@@ -222,10 +222,10 @@ class SerializerRegistry(object):
         if is_portable(obj):
             return self._portable_serializer
         type_id = None
-        if isinstance(obj, basestring):
+        if isinstance(obj, str):
             type_id = CONSTANT_TYPE_STRING
         # LOCATE NUMERIC TYPES
-        elif obj_type is int or obj_type is long:
+        elif obj_type is int or obj_type is int:
             if self.int_type == INTEGER_TYPE.BYTE:
                 type_id = CONSTANT_TYPE_BYTE
             elif self.int_type == INTEGER_TYPE.SHORT:
@@ -303,9 +303,9 @@ class SerializerRegistry(object):
         return serializer
 
     def destroy(self):
-        for serializer in self._type_dict.values():
+        for serializer in list(self._type_dict.values()):
             serializer.destroy()
-        for serializer in self._constant_type_dict.values():
+        for serializer in list(self._constant_type_dict.values()):
             serializer.destroy()
         self._type_dict.clear()
         self._id_dic.clear()

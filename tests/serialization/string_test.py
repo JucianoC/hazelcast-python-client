@@ -9,8 +9,8 @@ from hazelcast.serialization.data import Data
 from hazelcast.serialization.serialization_const import CONSTANT_TYPE_STRING
 from hazelcast.serialization.service import SerializationServiceV1
 
-TEST_DATA_TURKISH = u"Pijamalı hasta, yağız şoföre çabucak güvendi."
-TEST_DATA_JAPANESE = u"イロハニホヘト チリヌルヲ ワカヨタレソ ツネナラム"
+TEST_DATA_TURKISH = "Pijamalı hasta, yağız şoföre çabucak güvendi."
+TEST_DATA_JAPANESE = "イロハニホヘト チリヌルヲ ワカヨタレソ ツネナラム"
 TEST_DATA_ASCII = "The quick brown fox jumps over the lazy dog"
 TEST_DATA_ALL = TEST_DATA_TURKISH + TEST_DATA_JAPANESE + TEST_DATA_ASCII
 TEST_STR_SIZE = 1 << 20

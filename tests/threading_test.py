@@ -23,13 +23,13 @@ class ThreadingTest(SingleMemberTestCase):
         key_range = 50
         timeout = 300
 
-        keys = range(0, key_range)
+        keys = list(range(0, key_range))
 
         exceptions = []
         value = "v" * value_size
 
         def put_get_remove():
-            for i in xrange(0, num_iterations):
+            for i in range(0, num_iterations):
                 if i % 100 == 0:
                     self.logger.info("op %i", i)
                 try:
@@ -43,7 +43,7 @@ class ThreadingTest(SingleMemberTestCase):
                     self.logger.exception("Exception in thread")
                     exceptions.append((threading.currentThread().getName(), sys.exc_info()))
 
-        threads = [self.start_new_thread(put_get_remove) for _ in xrange(0, num_threads)]
+        threads = [self.start_new_thread(put_get_remove) for _ in range(0, num_threads)]
 
         for t in threads:
             t.join(timeout)
@@ -53,4 +53,4 @@ class ThreadingTest(SingleMemberTestCase):
         if exceptions:
             name, exception = exceptions[0]
             self.logger.exception("Exception in thread %s", name)
-            raise exception[0], None, exception[2]
+            raise exception[0].with_traceback(exception[2])

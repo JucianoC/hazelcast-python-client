@@ -47,7 +47,7 @@ def handle(client_message, handle_event_imapinvalidation=None, handle_event_imap
     if message_type == EVENT_IMAPBATCHINVALIDATION and handle_event_imapbatchinvalidation is not None:
         keys_size = client_message.read_int()
         keys = []
-        for keys_index in xrange(0, keys_size):
+        for keys_index in range(0, keys_size):
             keys_item = client_message.read_data()
             keys.append(keys_item)
         handle_event_imapbatchinvalidation(keys=keys)

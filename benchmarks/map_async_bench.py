@@ -55,7 +55,7 @@ def do_benchmark():
 
         def run(self):
             my_map = client.get_map("default")
-            for _ in xrange(0, REQ_COUNT):
+            for _ in range(0, REQ_COUNT):
                 key = int(random.random() * ENTRY_COUNT)
                 operation = int(random.random() * 100)
                 if operation < GET_PERCENTAGE:
@@ -70,8 +70,8 @@ def do_benchmark():
     t.run()
     t.event.wait()
     time_taken = time.time() - start
-    print("Took %s seconds for %d requests" % (time_taken, REQ_COUNT))
-    print("ops per second: %s" % (t.ops / time_taken))
+    print(("Took %s seconds for %d requests" % (time_taken, REQ_COUNT)))
+    print(("ops per second: %s" % (t.ops / time_taken)))
 
 
 if __name__ == '__main__':

@@ -14,7 +14,7 @@ def calculate_size(name, entries):
     data_size = 0
     data_size += calculate_size_str(name)
     data_size += INT_SIZE_IN_BYTES
-    for key, val in entries.iteritems():
+    for key, val in entries.items():
         data_size += calculate_size_data(key)
         data_size += calculate_size_data(val)
     return data_size
@@ -27,7 +27,7 @@ def encode_request(name, entries):
     client_message.set_retryable(RETRYABLE)
     client_message.append_str(name)
     client_message.append_int(len(entries))
-    for entries_item in entries.iteritems():
+    for entries_item in entries.items():
         client_message.append_tuple(entries_item)
     client_message.update_frame_length()
     return client_message

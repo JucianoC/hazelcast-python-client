@@ -192,7 +192,7 @@ class TransactionalMapTest(SingleMemberTestCase):
 
         with self.client.new_transaction() as tx:
             tx_map = tx.get_map(self.map.name)
-            self.assertItemsEqual(tx_map.values(), ["value-1", "value-2", "value-3"])
+            self.assertItemsEqual(list(tx_map.values()), ["value-1", "value-2", "value-3"])
 
     def test_values_with_predicate(self):
         self.map.put("key-1", "value-1")

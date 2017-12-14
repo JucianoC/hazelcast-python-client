@@ -177,7 +177,7 @@ class ReplicatedMap(Proxy):
         :param map: (dict), map which includes mappings to be stored in this map.
         """
         entries = {}
-        for key, value in map.iteritems():
+        for key, value in map.items():
             check_not_none(key, "key can't be None")
             check_not_none(value, "value can't be None")
             entries[self._to_data(key)] = self._to_data(value)
